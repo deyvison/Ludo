@@ -1,7 +1,6 @@
 package ufpb.aps.ludo.modelo;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,7 +8,7 @@ public class Tabuleiro {
 	
 	private Map<String, Casa> tabuleiro;
 	private Map<Integer,String> posicaoJogadores; // idJogador, casaAtual;
-	private Collection<String> ids;
+	private ArrayList<String> ids;
 	
 	public Tabuleiro(){
 		
@@ -25,11 +24,30 @@ public class Tabuleiro {
 	
 	public void mover(int IDjogador, int nDado){
 		
-		String posAtual = this.posicaoJogadores.get(IDjogador);
+		String idCasaAtual = this.posicaoJogadores.get(IDjogador);
+		
+		int posFinalArray = this.ids.indexOf(idCasaAtual)+nDado;
+		
+		String idCasaFinal = ids.get(posFinalArray);
+		
+		Casa casaFinal = this.tabuleiro.get(idCasaFinal);
 
-		for(int i = 0 ; i < nDado ; i++){
-			String prox = this.tabuleiro.get(posAtual).getIDProximaCasa();
+		switch (casaFinal.getAcao()){ // verifica a ação da casa
+			case "INICIO":	
+			case "REPETE":
+			case "NADA":
+			case "VOLTA":
+			case "AVANCA":
+			case "PARA":
+			case "IR_PARA":
+			case "FIM":
+				
 		}
+			
+			
+			// alterar a posicao atual do jogador após ele terminar de jogar
+			
+		posicaoJogadores.put(IDjogador, idCasaFinal);
 	}
 	
 	public void addJogador(int idJogador){
@@ -42,7 +60,7 @@ public class Tabuleiro {
 		for(String id : this.ids){
 			String acao = this.tabuleiro.get(id).getAcao();
 			
-			if(acao !)
+		//	if(acao !)
 		}
 	}
 	
