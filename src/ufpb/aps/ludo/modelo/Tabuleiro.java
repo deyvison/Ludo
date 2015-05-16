@@ -34,11 +34,11 @@ public class Tabuleiro {
 
 		switch (casaFinal.getAcao()){ // verifica a ação da casa
 			case "INICIO":	
-			case "REPETE":
 			case "NADA":
+			case "REPETE":
+			case "PARA":
 			case "VOLTA":
 			case "AVANCA":
-			case "PARA":
 			case "IR_PARA":
 			case "FIM":
 				
