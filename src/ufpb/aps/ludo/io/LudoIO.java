@@ -23,14 +23,19 @@ public class LudoIO {
 		this.jogadas = new ArrayList<String>();
 		
 		
-		lf.carregarTabuleiro(this.lerArquivo());
+		ArrayList<Casa> casas =this.lerArquivo(); 
+	
 		
-		int nDado = Integer.parseInt(this.jogadas.get(0)); // obtem o tamanho do dado que está no inicio do array de jogadas
+		
+		int nDado = Integer.parseInt(this.jogadas.get(0).split(":")[1]); // obtem o tamanho do dado que está no inicio do array de jogadas
 		this.jogadas.remove(0); // remove da lista de jogadas
-		int qtJogadores = Integer.parseInt(this.jogadas.get(0)); // obtem a qt de jogadores
+		
+		int qtJogadores = Integer.parseInt(this.jogadas.get(0).split(":")[1]); // obtem a qt de jogadores
 		this.jogadas.remove(0); // remove a qt de jogadores do array de jogadas
 		
-		this.lf = new LudoFacade(nDado, qtJogadores); 
+		
+		this.lf = new LudoFacade(nDado, qtJogadores); // primeiro adc as casas
+		lf.carregarTabuleiro(casas); // depois add os jogadores
 	}
 	
 	public ArrayList<Casa> lerArquivo() throws Exception{

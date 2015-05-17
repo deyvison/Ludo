@@ -28,31 +28,48 @@ public class Tabuleiro {
 		
 		int posFinalArray = this.ids.indexOf(idCasaAtual)+nDado; // posicao da casa final do jogador
 		
-		String idCasaFinal = ids.get(posFinalArray); // id casa final do jogador
 		
-		Casa casaFinal = this.tabuleiro.get(idCasaFinal); //obtem casa final do jogador
-
-		switch (casaFinal.getAcao()){ // verifica a ação da casa
+		// verificar se a posicao final é maior do que a ultima casa do array (jogador ganhou)
+		if(posFinalArray < ids.size()){
+			String idCasaFinal = ids.get(posFinalArray); // id casa final do jogador
+			
+			Casa casaFinal = this.tabuleiro.get(idCasaFinal); //obtem casa final do jogador
+			switch (casaFinal.getAcao()){ // verifica a ação da casa
 			case "INICIO":
 				// todos vao começar do inicio(impossivel cair aqui)
+				break;
 			case "NADA":
 				// passa a vez para o proximo
+				break;
 			case "REPETE":
 				// joga mais uma vez
+				break;
 			case "PARA":
 				// fica uma rodada sem jogar
+				break;
 			case "VOLTA":
 				// volta x casas
+				break;
 			case "AVANCA":
 				// avança x casas
+				break;
 			case "IR_PARA":
-				// vai para casa x
+				// vai para casa x	
+				break;
 			case "FIM":
 				// jogador ganhou - fim de jogo
-				
+				break;
+			}
+			posicaoJogadores.put(IDjogador, idCasaFinal); //atualiza a casa atual onde o jogador parou
+			
+		}else if(posFinalArray >= ids.size()){ // se for maior, o jogador ganhou
+			System.out.println("ganhou");
 		}
 		
-		posicaoJogadores.put(IDjogador, idCasaFinal); //atualiza a casa atual onde o jogador parou
+
+
+		
+		
 		return "";
 	}
 	

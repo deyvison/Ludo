@@ -15,7 +15,6 @@ public class Ludo {
 		this.tamDado = tamDado;
 		this.qtJogadores = qtJogadores;
 		
-		this.addJogadores();
 	}
 	
 	public void carregarTabuleiro(ArrayList<Casa> casasTabuleiro){
@@ -23,11 +22,12 @@ public class Ludo {
 			for(Casa c : casasTabuleiro){
 				tabuleiro.addCasa(c);
 			}
+			this.addJogadores();
 	}
 	
 	public String jogar(String descricaoJogada){
 		String dados[] = descricaoJogada.split(">");
-		tabuleiro.mover(dados[0], Integer.parseInt(dados[1]));
+		tabuleiro.mover(dados[0], Integer.parseInt(dados[1])); // idjogador, numero do dado que tirou
 		return "";
 	}
 	
