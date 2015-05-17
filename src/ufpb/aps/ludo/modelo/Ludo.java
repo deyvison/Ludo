@@ -26,9 +26,13 @@ public class Ludo {
 	}
 	
 	public String jogar(String descricaoJogada){
-		String dados[] = descricaoJogada.split(">");
-		tabuleiro.mover(dados[0], Integer.parseInt(dados[1])); // idjogador, numero do dado que tirou
-		return "";
+		try{
+			String dados[] = descricaoJogada.split(">");
+			tabuleiro.mover(dados[0], Integer.parseInt(dados[1])); // idjogador, numero do dado que tirou
+			return "";
+		}catch(Exception e){
+			return "JOGADA INVALIDA";
+		}
 	}
 	
 	public void addJogadores(){

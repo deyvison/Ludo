@@ -63,7 +63,7 @@ public class Tabuleiro {
 			posicaoJogadores.put(IDjogador, idCasaFinal); //atualiza a casa atual onde o jogador parou
 			
 		}else if(posFinalArray >= ids.size()){ // se for maior, o jogador ganhou
-			System.out.println("ganhou");
+			System.out.println("ganhou "+IDjogador);
 		}
 		
 
