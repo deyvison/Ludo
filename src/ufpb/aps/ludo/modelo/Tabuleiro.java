@@ -7,13 +7,13 @@ import java.util.Map;
 public class Tabuleiro {
 	
 	private Map<String, Casa> tabuleiro;
-	private Map<Integer,String> posicaoJogadores; // idJogador, casaAtual;
+	private Map<String,String> posicaoJogadores; // idJogador, casaAtual;
 	private ArrayList<String> ids;
 	
 	public Tabuleiro(){
 		
 		this.tabuleiro = new HashMap<String, Casa>();
-		this.posicaoJogadores = new HashMap<Integer,String>();
+		this.posicaoJogadores = new HashMap<String,String>();
 		this.ids = new ArrayList<String>();
 	}
 	
@@ -22,46 +22,45 @@ public class Tabuleiro {
 		this.ids.add(c.getID());
 	}
 	
-	public void mover(int IDjogador, int nDado){
+	public String mover(String IDjogador, int nDado){
 		
-		String idCasaAtual = this.posicaoJogadores.get(IDjogador);
+		String idCasaAtual = this.posicaoJogadores.get(IDjogador); //id casa atual do jogador
 		
-		int posFinalArray = this.ids.indexOf(idCasaAtual)+nDado;
+		int posFinalArray = this.ids.indexOf(idCasaAtual)+nDado; // posicao da casa final do jogador
 		
-		String idCasaFinal = ids.get(posFinalArray);
+		String idCasaFinal = ids.get(posFinalArray); // id casa final do jogador
 		
-		Casa casaFinal = this.tabuleiro.get(idCasaFinal);
+		Casa casaFinal = this.tabuleiro.get(idCasaFinal); //obtem casa final do jogador
 
 		switch (casaFinal.getAcao()){ // verifica a ação da casa
-			case "INICIO":	
+			case "INICIO":
+				// todos vao começar do inicio(impossivel cair aqui)
 			case "NADA":
+				// passa a vez para o proximo
 			case "REPETE":
+				// joga mais uma vez
 			case "PARA":
+				// fica uma rodada sem jogar
 			case "VOLTA":
+				// volta x casas
 			case "AVANCA":
+				// avança x casas
 			case "IR_PARA":
+				// vai para casa x
 			case "FIM":
+				// jogador ganhou - fim de jogo
 				
 		}
-			
-			
-			// alterar a posicao atual do jogador após ele terminar de jogar
-			
-		posicaoJogadores.put(IDjogador, idCasaFinal);
+		
+		posicaoJogadores.put(IDjogador, idCasaFinal); //atualiza a casa atual onde o jogador parou
+		return "";
 	}
 	
-	public void addJogador(int idJogador){
-		this.posicaoJogadores.put(idJogador,"INICIO");
-	
+	public void addJogador(String idJogador){
+		this.posicaoJogadores.put(idJogador,this.ids.get(0)); // add cada jogador e o coloca na casa de inicio
+		
 	} 
 	
-	public void atribuirAcoes(){
-		
-		for(String id : this.ids){
-			String acao = this.tabuleiro.get(id).getAcao();
-			
-		//	if(acao !)
-		}
-	}
+	
 	
 }

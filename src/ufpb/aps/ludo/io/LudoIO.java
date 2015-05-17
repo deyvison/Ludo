@@ -3,24 +3,34 @@ package ufpb.aps.ludo.io;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import ufpb.aps.ludo.facade.LudoFacade;
 import ufpb.aps.ludo.modelo.Casa;
-// nDado e qtJogadores esta no array de jogadas
 
 public class LudoIO {
 	
 	private ArrayList<String> jogadas;
 	private BufferedReader leitor;
 	private PrintWriter escritor;
+	private LudoFacade lf;
 	
 	public LudoIO(String arquivoEntrada, String arquivoSaida) throws Exception{
 	
 		this.leitor = new BufferedReader(new FileReader(arquivoEntrada));
 		this.escritor = new PrintWriter(new FileWriter(arquivoSaida));
 		this.jogadas = new ArrayList<String>();
+		
+		
+		lf.carregarTabuleiro(this.lerArquivo());
+		
+		int nDado = Integer.parseInt(this.jogadas.get(0)); // obtem o tamanho do dado que está no inicio do array de jogadas
+		this.jogadas.remove(0); // remove da lista de jogadas
+		int qtJogadores = Integer.parseInt(this.jogadas.get(0)); // obtem a qt de jogadores
+		this.jogadas.remove(0); // remove a qt de jogadores do array de jogadas
+		
+		this.lf = new LudoFacade(nDado, qtJogadores); 
 	}
 	
 	public ArrayList<Casa> lerArquivo() throws Exception{
@@ -81,5 +91,13 @@ public class LudoIO {
 			casas.add(new Casa(id,acao,idProximaCasa));
 		}
 		return casas;
+	}
+
+	public void iniciarJogo() {
+		String retorno;
+		for(String s : this.jogadas){
+			retorno = lf.jogar(s);
+			this.escreverArquivo(retorno);
+		}
 	}
 }

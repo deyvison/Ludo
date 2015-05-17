@@ -5,22 +5,35 @@ import java.util.ArrayList;
 public class Ludo {
 	
 	//ArrayList<E> // lista com incremento circular para representar o jogadores
-	private String tamDado;
-	private String qtJogadores;
+	private int tamDado;
+	private int qtJogadores;
 	private Tabuleiro tabuleiro;
 	
-	public Ludo(ArrayList<Casa> casasTabuleiro){
+	public Ludo(int tamDado,int qtJogadores){
 
 		this.tabuleiro = new Tabuleiro();
+		this.tamDado = tamDado;
+		this.qtJogadores = qtJogadores;
 		
-		this.carregarTabuleiro(casasTabuleiro);
+		this.addJogadores();
 	}
 	
-	private void carregarTabuleiro(ArrayList<Casa> casasTabuleiro){
+	public void carregarTabuleiro(ArrayList<Casa> casasTabuleiro){
 			
 			for(Casa c : casasTabuleiro){
-				tabuleiro.addCasa(c); //parei aqui
+				tabuleiro.addCasa(c);
 			}
 	}
 	
+	public String jogar(String descricaoJogada){
+		String dados[] = descricaoJogada.split(">");
+		tabuleiro.mover(dados[0], Integer.parseInt(dados[1]));
+		return "";
+	}
+	
+	public void addJogadores(){
+		for(int i = 1 ; i <= this.qtJogadores ; i++){
+			this.tabuleiro.addJogador("J"+i);
+		}
+	}
 }
