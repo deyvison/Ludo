@@ -28,8 +28,9 @@ public class Ludo {
 	public String jogar(String descricaoJogada){
 		try{
 			String dados[] = descricaoJogada.split(">");
-			tabuleiro.mover(dados[0], Integer.parseInt(dados[1])); // idjogador, numero do dado que tirou
-			return "";
+			
+			return tabuleiro.mover(dados[0], Integer.parseInt(dados[1])); // idjogador, numero do dado que tirou
+			
 		}catch(Exception e){
 			return "JOGADA INVALIDA";
 		}

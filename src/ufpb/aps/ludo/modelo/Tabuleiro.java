@@ -31,9 +31,11 @@ public class Tabuleiro {
 		
 		// verificar se a posicao final é maior do que a ultima casa do array (jogador ganhou)
 		if(posFinalArray < ids.size()){
+			
 			String idCasaFinal = ids.get(posFinalArray); // id casa final do jogador
 			
 			Casa casaFinal = this.tabuleiro.get(idCasaFinal); //obtem casa final do jogador
+			
 			switch (casaFinal.getAcao()){ // verifica a ação da casa
 			case "INICIO":
 				// todos vao começar do inicio(impossivel cair aqui)
@@ -47,12 +49,6 @@ public class Tabuleiro {
 			case "PARA":
 				// fica uma rodada sem jogar
 				break;
-			case "VOLTA":
-				// volta x casas
-				break;
-			case "AVANCA":
-				// avança x casas
-				break;
 			case "IR_PARA":
 				// vai para casa x	
 				break;
@@ -62,15 +58,19 @@ public class Tabuleiro {
 			}
 			posicaoJogadores.put(IDjogador, idCasaFinal); //atualiza a casa atual onde o jogador parou
 			
-		}else if(posFinalArray >= ids.size()){ // se for maior, o jogador ganhou
-			System.out.println("ganhou "+IDjogador);
+		}else{// se for maior ou igual, o jogador ganhou
+			System.out.println("ganhou "+IDjogador); // jogador ganhou
 		}
 		
 
-
+		String retorno = "";
 		
-		
-		return "";
+		for (String idJog  : this.posicaoJogadores.keySet()) {  
+		    String posCasa = this.posicaoJogadores.get(idJog);
+		    
+		    retorno +=idJog+":"+posCasa+"/";
+		}
+		return retorno; // retornar o status do jogo (casa onde casa jogador está)
 	}
 	
 	public void addJogador(String idJogador){

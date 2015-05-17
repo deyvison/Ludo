@@ -17,8 +17,8 @@ public class LudoFacade {
 	
 	
 	public String jogar(String descricaoJogada){
-		ludo.jogar(descricaoJogada);
-		return "";
+		return ludo.jogar(descricaoJogada);
+		
 	}
 	
 	public void carregarTabuleiro(ArrayList<Casa> casasTabuleiro){

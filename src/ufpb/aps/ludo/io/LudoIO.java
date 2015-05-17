@@ -102,7 +102,9 @@ public class LudoIO {
 		String retorno;
 		for(String s : this.jogadas){
 			retorno = lf.jogar(s);
+			this.escreverArquivo(s);
 			this.escreverArquivo(retorno);
 		}
+		this.escritor.close();
 	}
 }
