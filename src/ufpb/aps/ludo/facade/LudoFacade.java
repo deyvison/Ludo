@@ -2,6 +2,9 @@ package ufpb.aps.ludo.facade;
 
 import java.util.ArrayList;
 
+import ufpb.aps.ludo.excecoes.JogadaInvalidaException;
+import ufpb.aps.ludo.excecoes.JogadaMaximaException;
+import ufpb.aps.ludo.excecoes.JogadorDaVezException;
 import ufpb.aps.ludo.modelo.Casa;
 import ufpb.aps.ludo.modelo.Ludo;
 
@@ -16,7 +19,7 @@ public class LudoFacade {
 	}
 	
 	
-	public String jogar(String descricaoJogada){
+	public String jogar(String descricaoJogada) throws JogadorDaVezException, JogadaMaximaException, JogadaInvalidaException{
 		return ludo.jogar(descricaoJogada);
 		
 	}
@@ -25,5 +28,8 @@ public class LudoFacade {
 		ludo.carregarTabuleiro(casasTabuleiro);
 	}
 	
+	public String getStatusDoJogo(){
+		return this.ludo.getStatusDoJogo();
+	}
 	
 }

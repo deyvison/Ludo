@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import ufpb.aps.ludo.excecoes.JogadorDaVezException;
 import ufpb.aps.ludo.facade.LudoFacade;
 import ufpb.aps.ludo.modelo.Casa;
 
@@ -98,12 +99,21 @@ public class LudoIO {
 		return casas;
 	}
 
-	public void iniciarJogo() {
-		String retorno;
+	public void iniciarJogo() throws JogadorDaVezException {
+		String jogada = "";
+		String retorno = "";
+		
 		for(String s : this.jogadas){
-			retorno = lf.jogar(s);
-			this.escreverArquivo(s);
-			this.escreverArquivo(retorno);
+			jogada = s;
+			try{
+				retorno = lf.jogar(jogada);
+				this.escreverArquivo(jogada);
+				this.escreverArquivo("JOGO>"+retorno);
+				
+			}catch(Exception e){
+				this.escreverArquivo(jogada);
+				this.escreverArquivo("JOGO>"+e.getMessage());
+			}
 		}
 		this.escritor.close();
 	}
