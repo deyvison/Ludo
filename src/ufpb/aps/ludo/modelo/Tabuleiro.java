@@ -46,31 +46,6 @@ public class Tabuleiro {
 				this.posicaoJogadores.put(IDjogador, casaFinalIR_Para);
 				return "NADA";
 				
-			}else if(casaFinal.getAcao().equals("VOLTA")){ // volta x casas, atualiza a posicao atual do jogador e depois retorna nada
-				
-				int indexVoltaPara = posFinalArray - Integer.parseInt(casaFinal.getIDProximaCasa()); // diminui a casa atual para a qt de casas que deve voltar
-				
-				if(indexVoltaPara < 0){
-					idCasaFinal = this.ids.get(0); // obtem o id da casa final depois de x casas voltadas
-				}else{
-					idCasaFinal = this.ids.get(indexVoltaPara); // obtem o id da casa final depois de x casas voltadas
-				}
-				
-				this.posicaoJogadores.put(IDjogador,idCasaFinal); // atualiza a posicao atual do jogador
-				return "NADA"; // depois de fazer tudo isso, retorna NADA para passar a vez pro proximo jogador
-				
-			}else if(casaFinal.getAcao().equals("AVANCA")){ // avança x casas, atualiza a posicao atual do jogador e depois retorna nada
-
-				int indexAvancaPara = posFinalArray + Integer.parseInt(casaFinal.getIDProximaCasa()); // soma a casa atual para a qt de casas que deve avançar
-				
-				if(indexAvancaPara >= this.ids.size()-1){ //-1
-					return "FIM";
-				}else{
-					idCasaFinal = this.ids.get(indexAvancaPara); // obtem o id da casa final depois dos x avanços
-				}
-				
-				this.posicaoJogadores.put(IDjogador,idCasaFinal); // atualiza a posicao atual do jogador
-				return "NADA"; // depois de fazer tudo isso, retorna NADA para passar a vez pro proximo jogador
 			}else{
 				
 				return casaFinal.getAcao();
@@ -79,9 +54,6 @@ public class Tabuleiro {
 		}else{// se for maior ou igual, o jogador ganhou
 			return "FIM"; // jogador ganhou
 		}
-		
-
-		
 		
 	}
 	
@@ -98,7 +70,6 @@ public class Tabuleiro {
 		    retorno +=idJog+":"+posCasa+"/";
 		}
 		return retorno.substring(0, retorno.length()-1); // retornar o status do jogo (casa onde casa jogador está)
-		
 	}
 
 	public boolean validaJogador(String jogador) {

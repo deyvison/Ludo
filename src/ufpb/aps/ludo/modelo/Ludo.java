@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import ufpb.aps.ludo.excecoes.JogadaInvalidaException;
 import ufpb.aps.ludo.excecoes.JogadaMaximaException;
 import ufpb.aps.ludo.excecoes.JogadorDaVezException;
+import ufpb.aps.ludo.excecoes.JogadorInvalidoException;
 
 public class Ludo {
 	
@@ -12,6 +13,7 @@ public class Ludo {
 	private int tamDado;
 	private int qtJogadores;
 	private Tabuleiro tabuleiro;
+	private ArrayList<Boolean> jogadorPodeJogar;
 	
 	private int jogadorDaVez = 1;
 	
@@ -20,6 +22,15 @@ public class Ludo {
 		this.tabuleiro = new Tabuleiro();
 		this.tamDado = tamDado;
 		this.qtJogadores = qtJogadores;
+		
+		this.jogadorPodeJogar = new ArrayList<Boolean>(qtJogadores+1); // cria um array de boolean para representar que cada jogador pode jogar
+		
+		int index = 0;
+		while(index <= qtJogadores){
+			this.jogadorPodeJogar.add(true);
+			index++;
+		}
+		
 		
 	}
 	
@@ -31,7 +42,7 @@ public class Ludo {
 			this.addJogadores();
 	}
 	
-	public String jogar(String descricaoJogada) throws JogadorDaVezException, JogadaMaximaException, JogadaInvalidaException{
+	public String jogar(String descricaoJogada) throws JogadorDaVezException, JogadaMaximaException, JogadaInvalidaException, JogadorInvalidoException{
 			
 		String dados[];
 			
@@ -43,7 +54,7 @@ public class Ludo {
 		
 		boolean result = tabuleiro.validaJogador(dados[0]);
 		if(!result){
-			throw new JogadaInvalidaException();
+			throw new JogadorInvalidoException(dados[0]);
 		}
 			
 			
@@ -71,25 +82,36 @@ public class Ludo {
 			throw new JogadaInvalidaException();
 		}
 		
-		// se a jogada for menor ou igual a 0 e não conseguir converter pra int (jogadainvalida exception)
-		String retorno = tabuleiro.mover(dados[0], tamDadoRecebido); // idjogador, numero do dado que tirou
 		
 		
-		if(retorno.equals("NADA")){
-			jogadorDaVez = (this.jogadorDaVez % this.qtJogadores) + 1; // passa a vez para o próximo jogador
-			return this.tabuleiro.getStatusDoJogo(); // retorna o status do jogo se alguem nao ganhou ou se não houve algum erro
-		
-		}else if(retorno.equals("REPETE")){ // jogador joga mais uma vez
-			jogadorDaVez = jogadorDaVez;
-			return this.tabuleiro.getStatusDoJogo(); // retorna o status do jogo se alguem nao ganhou ou se não houve algum erro
+		if(this.jogadorPodeJogar.get(this.jogadorDaVez)){
+			
+			String retorno = tabuleiro.mover(dados[0], tamDadoRecebido); // idjogador, numero do dado que tirou
+			if(retorno.equals("NADA")|| retorno.equals("INICIO")){
+				jogadorDaVez = (this.jogadorDaVez % this.qtJogadores) + 1; // passa a vez para o próximo jogador
+				return this.tabuleiro.getStatusDoJogo(); // retorna o status do jogo se alguem nao ganhou ou se não houve algum erro
+			
+			}else if(retorno.equals("REPETE")){ // jogador joga mais uma vez
+				jogadorDaVez = jogadorDaVez;
+				return this.tabuleiro.getStatusDoJogo(); // retorna o status do jogo se alguem nao ganhou ou se não houve algum erro
 			}else if(retorno.equals("PARA")){ // jogador fica uma vez sem jogar
-			// fazer um jeito de ficar sem jogar por uma rodada
-			return this.tabuleiro.getStatusDoJogo(); // retorna o status do jogo se alguem nao ganhou ou se não houve algum erro
-		}else if(retorno.equals("FIM")){ // Fim de jogo
-			return "FIM DE JOGO:VENCEDOR "+"J"+this.jogadorDaVez;
+				
+				this.jogadorPodeJogar.set(jogadorDaVez, false);
+				jogadorDaVez = (this.jogadorDaVez % this.qtJogadores) + 1;
+				// fazer um jeito de ficar sem jogar por uma rodada
+				return this.tabuleiro.getStatusDoJogo(); // retorna o status do jogo se alguem nao ganhou ou se não houve algum erro
+			}else{ // Fim de jogo
+				return "FIM DE JOGO:VENCEDOR "+"J"+this.jogadorDaVez;
+			}
+		}else{
+			
+			this.jogadorPodeJogar.set(jogadorDaVez, true);
+			jogadorDaVez = (this.jogadorDaVez % this.qtJogadores) + 1;
+			throw new JogadorDaVezException("J"+jogadorDaVez);
 		}
 		
-		return "deu águia "+retorno;
+		
+		
 }
 
 

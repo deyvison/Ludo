@@ -107,14 +107,25 @@ public class LudoIO {
 			jogada = s;
 			try{
 				retorno = lf.jogar(jogada);
+				
+				
+				String status = "JOGO>"+retorno;
 				this.escreverArquivo(jogada);
-				this.escreverArquivo("JOGO>"+retorno);
+				this.escreverArquivo(status);
+				if(status.contains("FIM DE JOGO")){
+					break;
+				
+				}
 				
 			}catch(Exception e){
+				
 				this.escreverArquivo(jogada);
-				this.escreverArquivo("JOGO>"+e.getMessage());
-			}
+				this.escreverArquivo(e.getMessage());
+					
+				}
+				
 		}
+		
 		this.escritor.close();
 	}
 }
