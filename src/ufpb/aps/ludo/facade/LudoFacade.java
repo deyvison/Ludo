@@ -11,7 +11,6 @@ import ufpb.aps.ludo.modelo.Ludo;
 
 public class LudoFacade {
 	
-	
 	private Ludo ludo;
 	
 	public LudoFacade(int tamDado, int qtJogadores) throws Exception{

@@ -23,11 +23,8 @@ public class LudoIO {
 		this.escritor = new PrintWriter(new FileWriter(arquivoSaida));
 		this.jogadas = new ArrayList<String>();
 		
-		
 		ArrayList<Casa> casas =this.lerArquivo(); 
 	
-		
-		
 		int nDado = Integer.parseInt(this.jogadas.get(0).split(":")[1]); // obtem o tamanho do dado que está no inicio do array de jogadas
 		this.jogadas.remove(0); // remove da lista de jogadas
 		
@@ -100,32 +97,25 @@ public class LudoIO {
 	}
 
 	public void iniciarJogo() throws JogadorDaVezException {
-		String jogada = "";
-		String retorno = "";
+		String jogada;
+		String retorno;
 		
 		for(String s : this.jogadas){
 			jogada = s;
 			try{
 				retorno = lf.jogar(jogada);
-				
-				
 				String status = "JOGO>"+retorno;
 				this.escreverArquivo(jogada);
 				this.escreverArquivo(status);
+
 				if(status.contains("FIM DE JOGO")){
 					break;
-				
 				}
-				
 			}catch(Exception e){
-				
 				this.escreverArquivo(jogada);
 				this.escreverArquivo(e.getMessage());
-					
-				}
-				
+			}
 		}
-		
 		this.escritor.close();
 	}
 }

@@ -25,41 +25,30 @@ public class Tabuleiro {
 	public String mover(String IDjogador, int nDado){
 		
 		String idCasaAtual = this.posicaoJogadores.get(IDjogador); //id casa atual do jogador
-		
 		int posFinalArray = this.ids.indexOf(idCasaAtual)+nDado; // posicao da casa final do jogador
-		
 		
 		// verificar se a posicao final é maior do que a ultima casa do array (jogador ganhou)
 		if(posFinalArray < ids.size()){
-			
+
 			String idCasaFinal = ids.get(posFinalArray); // id casa final do jogador
-			
 			Casa casaFinal = this.tabuleiro.get(idCasaFinal); //obtem casa final do jogador
-			
 			this.posicaoJogadores.put(IDjogador, idCasaFinal); //atualiza a casa atual onde o jogador parou
-			
-			
 			
 			if(casaFinal.getAcao().equals("IR_PARA")){
 				// pegar a casa seguinte - idproximacasa
 				String casaFinalIR_Para = casaFinal.getIDProximaCasa();
 				this.posicaoJogadores.put(IDjogador, casaFinalIR_Para);
 				return "NADA";
-				
 			}else{
-				
 				return casaFinal.getAcao();
 			}
-			
 		}else{// se for maior ou igual, o jogador ganhou
 			return "FIM"; // jogador ganhou
 		}
-		
 	}
 	
 	public void addJogador(String idJogador){
 		this.posicaoJogadores.put(idJogador,this.ids.get(0)); // add cada jogador e o coloca na casa de inicio
-		
 	} 
 	
 	public String getStatusDoJogo(){
