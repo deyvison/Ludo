@@ -43,7 +43,8 @@ public class Ludo {
 		}
 	}
 
-	public String jogar(String descricaoJogada) throws JogadorDaVezException, JogadaMaximaException, JogadaInvalidaException, JogadorInvalidoException{
+	public String jogar(String descricaoJogada) throws JogadorDaVezException, JogadaMaximaException, 
+	JogadaInvalidaException, JogadorInvalidoException{
 			
 		String dados[];
 			
@@ -60,53 +61,60 @@ public class Ludo {
 			
 		boolean jog = dados[0].equalsIgnoreCase("J"+jogadorDaVez);
 		
-		if(!jog){
-			throw new JogadorDaVezException("J"+jogadorDaVez);
-		}
-			
-		int tamDadoRecebido;
-			
-		try{
-			tamDadoRecebido = Integer.parseInt(dados[1]);
-		}catch(Exception e){
-			throw new JogadaInvalidaException();
-		}
-			
-			
-			
-		if(tamDadoRecebido > tamDado){
-			throw new JogadaMaximaException(this.tamDado);
-		}
 		
-		if(tamDadoRecebido <= 0){
-			throw new JogadaInvalidaException();
-		}
-		
-		
-		
-		if(this.jogadorPodeJogar.get(this.jogadorDaVez)){
 			
-			String retorno = tabuleiro.mover(dados[0], tamDadoRecebido); // idjogador, numero do dado que tirou
-			if(retorno.equals("NADA")|| retorno.equals("INICIO")){
-				jogadorDaVez = (this.jogadorDaVez % this.qtJogadores) + 1; // passa a vez para o próximo jogador
-				return this.tabuleiro.getStatusDoJogo(); // retorna o status do jogo se alguem nao ganhou ou se não houve algum erro
+		if(jog){	// se ele é o jogador da vez
 			
-			}else if(retorno.equals("REPETE")){ // jogador joga mais uma vez
-				jogadorDaVez = jogadorDaVez;
-				return this.tabuleiro.getStatusDoJogo(); // retorna o status do jogo se alguem nao ganhou ou se não houve algum erro
-			}else if(retorno.equals("PARA")){ // jogador fica uma vez sem jogar
+			if(this.jogadorPodeJogar.get(this.jogadorDaVez)){ // se ele pode jogar, então joga
 				
-				this.jogadorPodeJogar.set(jogadorDaVez, false);
+				int tamDadoRecebido;
+				
+				try{
+					tamDadoRecebido = Integer.parseInt(dados[1]);
+				}catch(Exception e){
+					throw new JogadaInvalidaException();
+				}
+					
+				if(tamDadoRecebido > tamDado){
+					throw new JogadaMaximaException(this.tamDado);
+				}
+				
+				if(tamDadoRecebido <= 0){
+					throw new JogadaInvalidaException();
+				}
+				
+				String retorno = tabuleiro.mover(dados[0], tamDadoRecebido); // idjogador, numero do dado que tirou
+				if(retorno.equals("NADA")|| retorno.equals("INICIO")){
+					jogadorDaVez = (this.jogadorDaVez % this.qtJogadores) + 1; // passa a vez para o próximo jogador
+					return this.tabuleiro.getStatusDoJogo(); // retorna o status do jogo se alguem nao ganhou ou se não houve algum erro
+				
+				}else if(retorno.equals("REPETE")){ // jogador joga mais uma vez
+					jogadorDaVez = jogadorDaVez;
+					return this.tabuleiro.getStatusDoJogo(); // retorna o status do jogo se alguem nao ganhou ou se não houve algum erro
+				}else if(retorno.equals("PARA")){ // jogador fica uma vez sem jogar
+					this.jogadorPodeJogar.set(jogadorDaVez, false);
+					jogadorDaVez = (this.jogadorDaVez % this.qtJogadores) + 1;
+					return this.tabuleiro.getStatusDoJogo(); // retorna o status do jogo se alguem nao ganhou ou se não houve algum erro
+				}else{ // Fim de jogo
+					return "FIM DE JOGO:VENCEDOR "+"J"+this.jogadorDaVez;
+				}
+			
+			}else{ // se ele nao pode jogar
+				this.jogadorPodeJogar.set(jogadorDaVez, true);
 				jogadorDaVez = (this.jogadorDaVez % this.qtJogadores) + 1;
-				return this.tabuleiro.getStatusDoJogo(); // retorna o status do jogo se alguem nao ganhou ou se não houve algum erro
-			}else{ // Fim de jogo
-				return "FIM DE JOGO:VENCEDOR "+"J"+this.jogadorDaVez;
+				throw new JogadorDaVezException("J"+jogadorDaVez); // só pode mudar pra true quando completar uma jogada
 			}
-		}else{
-			this.jogadorPodeJogar.set(jogadorDaVez, true);
-			jogadorDaVez = (this.jogadorDaVez % this.qtJogadores) + 1;
+		}else{ // se ele não for o jogador da vez
 			throw new JogadorDaVezException("J"+jogadorDaVez);
+			
 		}
+		
+		
+		
+	//	se ele poder jogar e for a vez dele, set pra true e passa a vez
+	//	se ele poder jogar e for a vez dele, joga!
+		
+		
 	}
 
 	public void addJogadores(){

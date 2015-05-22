@@ -34,11 +34,18 @@ public class Tabuleiro {
 			Casa casaFinal = this.tabuleiro.get(idCasaFinal); //obtem casa final do jogador
 			this.posicaoJogadores.put(IDjogador, idCasaFinal); //atualiza a casa atual onde o jogador parou
 			
+			
 			if(casaFinal.getAcao().equals("IR_PARA")){
-				// pegar a casa seguinte - idproximacasa
-				String casaFinalIR_Para = casaFinal.getIDProximaCasa();
-				this.posicaoJogadores.put(IDjogador, casaFinalIR_Para);
-				return "NADA";
+				
+				while(casaFinal.getAcao().equals("IR_PARA")){
+					// pegar a casa seguinte - idproximacasa
+					String casaFinalIR_Para = casaFinal.getIDProximaCasa();
+					this.posicaoJogadores.put(IDjogador, casaFinalIR_Para);
+					casaFinal = this.tabuleiro.get(casaFinalIR_Para);
+				}
+				
+				
+				return casaFinal.getAcao();
 			}else{
 				return casaFinal.getAcao();
 			}
