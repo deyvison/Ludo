@@ -34,21 +34,14 @@ public class Tabuleiro {
 			Casa casaFinal = this.tabuleiro.get(idCasaFinal); //obtem casa final do jogador
 			this.posicaoJogadores.put(IDjogador, idCasaFinal); //atualiza a casa atual onde o jogador parou
 			
-			
-			if(casaFinal.getAcao().equals("IR_PARA")){
-				
-				while(casaFinal.getAcao().equals("IR_PARA")){
-					// pegar a casa seguinte - idproximacasa
-					String casaFinalIR_Para = casaFinal.getIDProximaCasa();
-					this.posicaoJogadores.put(IDjogador, casaFinalIR_Para);
-					casaFinal = this.tabuleiro.get(casaFinalIR_Para);
-				}
-				
-				
-				return casaFinal.getAcao();
-			}else{
-				return casaFinal.getAcao();
+			while(casaFinal.getAcao().equals("IR_PARA")){
+				// pegar a casa seguinte - idproximacasa
+				String casaFinalIR_Para = casaFinal.getIDProximaCasa();
+				this.posicaoJogadores.put(IDjogador, casaFinalIR_Para);
+				casaFinal = this.tabuleiro.get(casaFinalIR_Para);
 			}
+			
+			return casaFinal.getAcao();
 		}else{// se for maior ou igual, o jogador ganhou
 			return "FIM"; // jogador ganhou
 		}
@@ -59,10 +52,10 @@ public class Tabuleiro {
 	} 
 	
 	public String getStatusDoJogo(){
+
 		String retorno = "";
 		for (String idJog  : this.posicaoJogadores.keySet()) {  
 		    String posCasa = this.posicaoJogadores.get(idJog);
-		    
 		    retorno +=idJog+":"+posCasa+"/";
 		}
 		return retorno.substring(0, retorno.length()-1); // retornar o status do jogo (casa onde casa jogador está)

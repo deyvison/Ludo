@@ -46,44 +46,16 @@ public class Ludo {
 	public String jogar(String descricaoJogada) throws JogadorDaVezException, JogadaMaximaException, 
 	JogadaInvalidaException, JogadorInvalidoException{
 			
-		String dados[];
-			
-		if(descricaoJogada.contains(">")){
-			dados = descricaoJogada.split(">");
-		}else{
-			throw new JogadaInvalidaException();
-		}
-		
-		boolean result = tabuleiro.validaJogador(dados[0]);
-		if(!result){
-			throw new JogadorInvalidoException(dados[0]);
-		}
-			
-		boolean jog = dados[0].equalsIgnoreCase("J"+jogadorDaVez);
-		
-		
+		boolean jog = this.validaJogador(descricaoJogada); // valida jogador
 			
 		if(jog){	// se ele é o jogador da vez
 			
 			if(this.jogadorPodeJogar.get(this.jogadorDaVez)){ // se ele pode jogar, então joga
 				
-				int tamDadoRecebido;
+				// valida jogada
+				String[] dadosJogada = this.validaJogada(descricaoJogada);
 				
-				try{
-					tamDadoRecebido = Integer.parseInt(dados[1]);
-				}catch(Exception e){
-					throw new JogadaInvalidaException();
-				}
-					
-				if(tamDadoRecebido > tamDado){
-					throw new JogadaMaximaException(this.tamDado);
-				}
-				
-				if(tamDadoRecebido <= 0){
-					throw new JogadaInvalidaException();
-				}
-				
-				String retorno = tabuleiro.mover(dados[0], tamDadoRecebido); // idjogador, numero do dado que tirou
+				String retorno = tabuleiro.mover(dadosJogada[0], Integer.parseInt(dadosJogada[1])); // idjogador, numero do dado que tirou
 				if(retorno.equals("NADA")|| retorno.equals("INICIO")){
 					jogadorDaVez = (this.jogadorDaVez % this.qtJogadores) + 1; // passa a vez para o próximo jogador
 					return this.tabuleiro.getStatusDoJogo(); // retorna o status do jogo se alguem nao ganhou ou se não houve algum erro
@@ -100,7 +72,7 @@ public class Ludo {
 				}
 			
 			}else{ // se ele nao pode jogar
-				this.jogadorPodeJogar.set(jogadorDaVez, true);
+				this.jogadorPodeJogar.set(jogadorDaVez, true); // muda pra true pra ele poder jogar na próxima rodada
 				jogadorDaVez = (this.jogadorDaVez % this.qtJogadores) + 1;
 				throw new JogadorDaVezException("J"+jogadorDaVez); // só pode mudar pra true quando completar uma jogada
 			}
@@ -108,22 +80,62 @@ public class Ludo {
 			throw new JogadorDaVezException("J"+jogadorDaVez);
 			
 		}
-		
-		
-		
-	//	se ele poder jogar e for a vez dele, set pra true e passa a vez
-	//	se ele poder jogar e for a vez dele, joga!
-		
-		
 	}
-
+	
 	public void addJogadores(){
 		for(int i = 1 ; i <= this.qtJogadores ; i++){
 			this.tabuleiro.addJogador("J"+i);
 		}
 	}
+	
 	public String getStatusDoJogo() {
 		return this.tabuleiro.getStatusDoJogo();
 	}
+
+	private String[] validaJogada(String descricaoJogada) throws JogadaInvalidaException, JogadaMaximaException {
+
+		String dados[];
+		dados = descricaoJogada.split(">");
+		
+		int tamDadoRecebido;
+		
+		try{
+			tamDadoRecebido = Integer.parseInt(dados[1]);
+		}catch(Exception e){
+			throw new JogadaInvalidaException();
+		}
+			
+		if(tamDadoRecebido > tamDado){
+			throw new JogadaMaximaException(this.tamDado);
+		}
+		
+		if(tamDadoRecebido <= 0){
+			throw new JogadaInvalidaException();
+		}
+		return dados;
+		
+	}
+
+	private boolean validaJogador(String descricaoJogada) throws JogadaInvalidaException, JogadorInvalidoException {
+
+		String dados[];
+		
+		if(descricaoJogada.contains(">")){
+			dados = descricaoJogada.split(">");
+		}else{
+			throw new JogadaInvalidaException();
+		}
+		
+		boolean result = tabuleiro.validaJogador(dados[0]);
+		
+		if(!result){
+			throw new JogadorInvalidoException(dados[0]);
+		}
+			
+		return dados[0].equalsIgnoreCase("J"+jogadorDaVez);
+
+	}
+
+	
 	
 }
