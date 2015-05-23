@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import ufpb.aps.ludo.enumAcoes.Acao;
+
 public class Tabuleiro {
 	
 	private Map<String, Casa> tabuleiro;
@@ -22,28 +24,27 @@ public class Tabuleiro {
 		this.ids.add(c.getID());
 	}
 	
-	public String mover(String IDjogador, int nDado){
+	public Acao mover(String IDjogador, int nDado){
 		
 		String idCasaAtual = this.posicaoJogadores.get(IDjogador); //id casa atual do jogador
 		int posFinalArray = this.ids.indexOf(idCasaAtual)+nDado; // posicao da casa final do jogador
 		
-		// verificar se a posicao final é maior do que a ultima casa do array (jogador ganhou)
-		if(posFinalArray < ids.size()){
+		if(posFinalArray < ids.size()){ // verificar se a posicao final é maior do que a ultima casa do array (jogador ganhou)
 
 			String idCasaFinal = ids.get(posFinalArray); // id casa final do jogador
 			Casa casaFinal = this.tabuleiro.get(idCasaFinal); //obtem casa final do jogador
 			this.posicaoJogadores.put(IDjogador, idCasaFinal); //atualiza a casa atual onde o jogador parou
 			
-			while(casaFinal.getAcao().equals("IR_PARA")){
-				// pegar a casa seguinte - idproximacasa
+			while(casaFinal.getAcao().equals(Acao.IR_PARA)){
+
 				String casaFinalIR_Para = casaFinal.getIDProximaCasa();
 				this.posicaoJogadores.put(IDjogador, casaFinalIR_Para);
 				casaFinal = this.tabuleiro.get(casaFinalIR_Para);
 			}
-			
 			return casaFinal.getAcao();
+			
 		}else{// se for maior ou igual, o jogador ganhou
-			return "FIM"; // jogador ganhou
+			return Acao.FIM; // jogador ganhou
 		}
 	}
 	
@@ -69,6 +70,4 @@ public class Tabuleiro {
 		}
 		return false;
 	}
-	
-	
 }

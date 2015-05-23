@@ -14,14 +14,11 @@ public class LudoFacade {
 	private Ludo ludo;
 	
 	public LudoFacade(int tamDado, int qtJogadores) throws Exception{
-		
 		this.ludo = new Ludo(tamDado, qtJogadores);
 	}
 	
-	
 	public String jogar(String descricaoJogada) throws JogadorDaVezException, JogadaMaximaException, JogadaInvalidaException, JogadorInvalidoException{
 		return ludo.jogar(descricaoJogada);
-		
 	}
 	
 	public void carregarTabuleiro(ArrayList<Casa> casasTabuleiro){
@@ -31,5 +28,4 @@ public class LudoFacade {
 	public String getStatusDoJogo(){
 		return this.ludo.getStatusDoJogo();
 	}
-	
 }

@@ -1,5 +1,7 @@
 package ufpb.aps.ludo.io;
 
+import ufpb.aps.ludo.enumAcoes.*;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -80,25 +82,23 @@ public class LudoIO {
 		ArrayList<Casa> casas = new ArrayList<Casa>();
 		for(String s : especificacaoCasas){
 			
-			String id="", acao = "", idProximaCasa = null;
-			String dados[] = s.split(":");
+			String id="", idProximaCasa = null, dados[];
+			Acao acao;
 			
-			if(dados.length == 3){
-				id = dados[0]; 
-				acao = dados[1];
+			dados = s.split(":");
+			
+			if(dados.length == 3){ // tem próxima casa
 				idProximaCasa = dados[2];
-			}else{
-				id = dados[0];
-				acao = dados[1];
 			}
+			id = dados[0];
+			acao = Acao.atribuirAcao(dados[1]);
 			casas.add(new Casa(id,acao,idProximaCasa));
 		}
 		return casas;
 	}
 
 	public void iniciarJogo() throws JogadorDaVezException {
-		String jogada;
-		String retorno;
+		String jogada,retorno;
 		
 		for(String s : this.jogadas){
 			jogada = s;
@@ -107,10 +107,9 @@ public class LudoIO {
 				String status = "JOGO>"+retorno;
 				this.escreverArquivo(jogada);
 				this.escreverArquivo(status);
-
-				if(status.contains("FIM DE JOGO")){
-					break;
-				}
+				
+				if(status.contains("FIM DE JOGO")) break;
+				
 			}catch(Exception e){
 				this.escreverArquivo(jogada);
 				this.escreverArquivo(e.getMessage());

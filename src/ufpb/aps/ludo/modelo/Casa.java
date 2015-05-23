@@ -1,13 +1,13 @@
 package ufpb.aps.ludo.modelo;
 
+import ufpb.aps.ludo.enumAcoes.Acao;
+
 public class Casa {
 	
+	private String id,idProximaCasa;
+	private Acao acao;
 	
-	private String id;
-	private String acao;
-	private String idProximaCasa;
-	
-	public Casa(String id, String acao, String idProximaCasa){
+	public Casa(String id, Acao acao, String idProximaCasa){
 		this.id = id;
 		this.acao = acao;
 		this.idProximaCasa = idProximaCasa;
@@ -17,7 +17,7 @@ public class Casa {
 		return this.id;
 	}
 	
-	public String getAcao(){
+	public Acao getAcao(){
 		return this.acao;
 	}
 	
